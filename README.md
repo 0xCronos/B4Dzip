@@ -6,19 +6,12 @@ occurs due to an incorrect validation of the Central Directory Header filename.
 More information about ZIP file format can be found [here](https://en.wikipedia.org/wiki/ZIP_(file_format)).
 
 ## Vulnerable code example
+
+The following code has been extracted from `HTB - Zipping` and is a good example of how the vulnerability works. Also, it is the main reason why I did this script.
+
 ```php
 <?php
-if (isset($_POST['submit'])) {
-  // Get the uploaded zip file
-  $zipFile = $_FILES['zipFile']['tmp_name'];
-  if ($_FILES["zipFile"]["size"] > 300000) {
-    echo "<p>File size must be less than 300,000 bytes.</p>";
-  } else {
-    // Create an md5 hash of the zip file
-    $fileHash = md5_file($zipFile);
-    // Create a new directory for the extracted files
-    $uploadDir = "uploads/$fileHash/";
-    // Extract the files from the zip
+    ...
     $zip = new ZipArchive;
     if ($zip->open($zipFile) === true) {
       if ($zip->count() > 1) {
@@ -55,8 +48,7 @@ if (isset($_POST['submit'])) {
     } else {
       echo "Error uploading file.";
     }
-  }
-}
+    ...
 ?>
 ```
 
