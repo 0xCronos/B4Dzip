@@ -90,22 +90,26 @@ The following code has been extracted from `HTB - Zipping` and is a good example
             HERE: Checking the Wiki we find that:
 
             "If the end of central directory record indicates a non-empty
-            archive (`cdh_size` and `lfh_size` in `badzip.py`), the name of each file or directory
-            within the archive should be specified in a central directory entry (`cdh_fname` in `badzip.py`), along with other
-            metadata about the entry, and an offset into the ZIP file pointing to the actual entry data.
+            archive (`cdh_size` and `lfh_size` in `badzip.py`), the name
+            of each file or directory within the archive should be specified
+            in a central directory entry (`cdh_fname` in `badzip.py`), along
+            with other metadata about the entry, and an offset into the ZIP file
+            pointing to the actual entry data.
 
             ...
 
-            "This allows a file listing of the archive to be performed relatively quickly,
-            as the entire archive does not have to be read to see the list of files."
+            "This allows a file listing of the archive to be performed relatively
+            quickly, as the entire archive does not have to be read to see
+            the list of files."
 
             TL;DR : ZipArchive lib reads file names from Central Directory Header :)
         */
         $fileName = $zip->getNameIndex(0);
 
         /* 
-            HERE: PATHINFO_EXTENSION returns only the last extension, so 'example.php\x00.pdf" will be read as .pdf == "pdf"
-            More about here: https://manuales.guebs.com/php/function.pathinfo.html
+            HERE: PATHINFO_EXTENSION returns only the last extension,
+                  so 'example.php\x00.pdf" will be read as .pdf == "pdf"
+                  More about: https://manuales.guebs.com/php/function.pathinfo.html
         */
         if (pathinfo($fileName, PATHINFO_EXTENSION) === "pdf") {
           mkdir($uploadDir);
