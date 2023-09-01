@@ -14,7 +14,7 @@ python3 main.py \
     --payload $PAYLOAD \
     --output $OUTPUT_FNAME
 
-if [ -e $OUTPUT ]; then
+if [ -e $OUTPUT_FNAME ]; then
     printf "\n\n*********** SUMMARY ***********\n\n"
     unzip -l $OUTPUT_FNAME
     printf "\n\n"
