@@ -3,7 +3,7 @@
 The main purpose of this script is to create a zip file for exploiting File Upload using Null Byte injection. The vulnerability
 occurs due to an incorrect validation of the Central Directory Header filename.
 <br><br>
-For more information about ZIP file format visit [the Wiki](https://en.wikipedia.org/wiki/ZIP_(file_format).
+For more information about ZIP file format visit [the Wiki](https://en.wikipedia.org/wiki/ZIP_(file_format)).
 
 <!-- USAGE EXAMPLES -->
 ## Usage
