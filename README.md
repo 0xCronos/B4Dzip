@@ -103,14 +103,16 @@ The following code has been extracted from `HTB - Zipping` and is a good example
             the list of files."
 
             TL;DR: $zip->getNameIndex(0) is reading the file name from Central Directory Header :)
+
             See: https://www.php.net/manual/es/ziparchive.getnameindex.php#refsect1-ziparchive.getnameindex-description
         */
         $fileName = $zip->getNameIndex(0);
 
         /* 
             HERE: PATHINFO_EXTENSION returns only the last extension,
-                  so 'example.php\x00.pdf" will be read as .pdf == "pdf"
-                  See: https://www.php.net/manual/es/function.pathinfo.php#refsect1-function.pathinfo-returnvalues
+            so 'example.php\x00.pdf" will be read as .pdf == "pdf"
+
+            See: https://www.php.net/manual/es/function.pathinfo.php#refsect1-function.pathinfo-returnvalues
         */
         if (pathinfo($fileName, PATHINFO_EXTENSION) === "pdf") {
           mkdir($uploadDir);
