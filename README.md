@@ -5,53 +5,6 @@ occurs due to an incorrect validation of the Central Directory Header filename.
 <br><br>
 More information about ZIP file format can be found [here](https://en.wikipedia.org/wiki/ZIP_(file_format)).
 
-## Vulnerable code example
-
-The following code has been extracted from `HTB - Zipping` and is a good example of how the vulnerability works. Also, it is the main reason why I did this script.
-
-```php
-<?php
-    ...
-    $zip = new ZipArchive;
-    if ($zip->open($zipFile) === true) {
-      if ($zip->count() > 1) {
-        echo '<p>Please include a single PDF file in the archive.<p>';
-      } else {
-        /* 
-            HERE: Checking the Wiki we find that:
-
-            "If the end of central directory record indicates a non-empty
-            archive (`cdh_size` and `lfh_size` in `badzip.py`), the name of each file or directory
-            within the archive should be specified in a central directory entry (`cdh_fname` in `badzip.py`), along with other
-            metadata about the entry, and an offset into the ZIP file pointing to the actual entry data.
-
-            ...
-
-            "This allows a file listing of the archive to be performed relatively quickly,
-            as the entire archive does not have to be read to see the list of files."
-
-            TL;DR : ZipArchive lib reads file names from Central Directory Header :)
-        */
-        $fileName = $zip->getNameIndex(0);
-
-        /* 
-            HERE: PATHINFO_EXTENSION returns only the last extension, so 'example.php\x00.pdf" will be read as .pdf == "pdf"
-            More about here: https://manuales.guebs.com/php/function.pathinfo.html
-        */
-        if (pathinfo($fileName, PATHINFO_EXTENSION) === "pdf") {
-          mkdir($uploadDir);
-          echo exec('7z e ' . $zipFile . ' -o' . $uploadDir . '>/dev/null');
-          echo '<p>File successfully uploaded and unzipped, a staff member will review your resume as soon as possible. Make sure it has been uploaded correctly by accessing the following path:</p><a href="' . $uploadDir . $fileName . '">' . $uploadDir . $fileName . '</a>' . '</p>';
-        } else {
-          echo "<p>The unzipped file must have  a .pdf extension.</p>";
-        }
-      }
-    } else {
-      echo "Error uploading file.";
-    }
-    ...
-?>
-```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -121,6 +74,53 @@ Archive:  b4d.zip
 0000017b
 ```
 
+## Vulnerable code example
+
+The following code has been extracted from `HTB - Zipping` and is a good example of how the vulnerability works. Also, it is the main reason why I did this script.
+
+```php
+<?php
+    ...
+    $zip = new ZipArchive;
+    if ($zip->open($zipFile) === true) {
+      if ($zip->count() > 1) {
+        echo '<p>Please include a single PDF file in the archive.<p>';
+      } else {
+        /* 
+            HERE: Checking the Wiki we find that:
+
+            "If the end of central directory record indicates a non-empty
+            archive (`cdh_size` and `lfh_size` in `badzip.py`), the name of each file or directory
+            within the archive should be specified in a central directory entry (`cdh_fname` in `badzip.py`), along with other
+            metadata about the entry, and an offset into the ZIP file pointing to the actual entry data.
+
+            ...
+
+            "This allows a file listing of the archive to be performed relatively quickly,
+            as the entire archive does not have to be read to see the list of files."
+
+            TL;DR : ZipArchive lib reads file names from Central Directory Header :)
+        */
+        $fileName = $zip->getNameIndex(0);
+
+        /* 
+            HERE: PATHINFO_EXTENSION returns only the last extension, so 'example.php\x00.pdf" will be read as .pdf == "pdf"
+            More about here: https://manuales.guebs.com/php/function.pathinfo.html
+        */
+        if (pathinfo($fileName, PATHINFO_EXTENSION) === "pdf") {
+          mkdir($uploadDir);
+          echo exec('7z e ' . $zipFile . ' -o' . $uploadDir . '>/dev/null');
+          echo '<p>File successfully uploaded and unzipped, a staff member will review your resume as soon as possible. Make sure it has been uploaded correctly by accessing the following path:</p><a href="' . $uploadDir . $fileName . '">' . $uploadDir . $fileName . '</a>' . '</p>';
+        } else {
+          echo "<p>The unzipped file must have  a .pdf extension.</p>";
+        }
+      }
+    } else {
+      echo "Error uploading file.";
+    }
+    ...
+?>
+```
 
 ## Meta
 
