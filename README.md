@@ -78,5 +78,5 @@ Diego Muñoz – [LinkedIn](linkedin.com/in/diegomuñozm)
 
 Distributed under the MIT License. Go to ``LICENSE`` for more information.
 
-[Ver licencia](https://github.com/0xCronos/B4Dzip/blob/master/LICENSE)
+[See license](https://github.com/0xCronos/B4Dzip/blob/master/LICENSE)
 
