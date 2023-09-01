@@ -27,7 +27,7 @@ optional arguments:
 ## Usage via `runner.sh`
 
 I Highly recommend to use the `runner.sh` file for getting information about usage examples.
-The example above shows how a successfull execution of the script should look like.
+The example below shows how a successfull execution of the script should look like.
 
 ```
 ./runner.sh 
