@@ -76,7 +76,7 @@ Archive:  b4d.zip
 
 ## Vulnerable code example
 
-The following code has been extracted from `HTB - Zipping` and is a good example of how the vulnerability works. Also, it is the main reason why I did this script.
+The following code has been extracted from `HTB - Zipping` and is a good example about how the vulnerability works. Also, it is the main reason why I did this script.
 
 ```php
 <?php
