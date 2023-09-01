@@ -20,9 +20,10 @@ The following code has been extracted from `HTB - Zipping` and is a good example
         /* 
             HERE: Checking the Wiki we find that:
 
-            "If the end of central directory record indicates a non-empty archive (`cdh_size` and `lfh_size` in `badzip.py`),
-            the name of each file or directory within the archive should be specified in a central directory entry (`cdh_fname` in `badzip.py`),
-            along with other metadata about the entry, and an offset into the ZIP file pointing to the actual entry data.
+            "If the end of central directory record indicates a non-empty
+            archive (`cdh_size` and `lfh_size` in `badzip.py`), the name of each file or directory
+            within the archive should be specified in a central directory entry (`cdh_fname` in `badzip.py`), along with other
+            metadata about the entry, and an offset into the ZIP file pointing to the actual entry data.
 
             ...
 
@@ -34,8 +35,8 @@ The following code has been extracted from `HTB - Zipping` and is a good example
         $fileName = $zip->getNameIndex(0);
 
         /* 
-            HERE: PATHINFO_EXTENSION returns only the last extension, so 'file.php\x00.pdf" will be read as .pdf == "pdf"
-            https://manuales.guebs.com/php/function.pathinfo.html
+            HERE: PATHINFO_EXTENSION returns only the last extension, so 'example.php\x00.pdf" will be read as .pdf == "pdf"
+            More about here: https://manuales.guebs.com/php/function.pathinfo.html
         */
         if (pathinfo($fileName, PATHINFO_EXTENSION) === "pdf") {
           mkdir($uploadDir);
