@@ -70,3 +70,13 @@ Archive:  b4d.zip
 00000170  00 47 00 00 00 1e 01 00  00 00 00                 |.G.........|
 0000017b
 ```
+
+
+## Meta
+
+Diego Muñoz – [LinkedIn](linkedin.com/in/diegomuñozm)
+
+Distributed under the MIT License. Go to ``LICENSE`` for more information.
+
+[Ver licencia](https://github.com/0xCronos/B4Dzip/blob/master/LICENSE)
+
