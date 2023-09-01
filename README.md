@@ -102,7 +102,7 @@ The following code has been extracted from `HTB - Zipping` and is a good example
             quickly, as the entire archive does not have to be read to see
             the list of files."
 
-            TL;DR : ZipArchive lib reads file names from Central Directory Header :)
+            TL;DR : $zip->getNameIndex(0) is reading the file name from Central Directory Header :)
         */
         $fileName = $zip->getNameIndex(0);
 
