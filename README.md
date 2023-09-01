@@ -24,9 +24,10 @@ optional arguments:
   -O OUTPUT_FNAME, --output-fname OUTPUT_FNAME
                         Output file name
 ```
-## Using runner
+## Usage via `runner.sh`
 
-I Highly recommend to see the `runner.sh` file for getting information about usage examples.
+I Highly recommend to use the `runner.sh` file for getting information about usage examples.
+The example above shows how a successfull execution of the script should look like.
 
 ```
 ./runner.sh 
