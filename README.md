@@ -1,10 +1,11 @@
 # B4Dzip
 
 The main purpose of this script is to create a zip file for exploiting File Upload using Null Byte injection.
+
 The vulnerability occurs because the validation of the compressed file extension is performed using the Central 
 Directory Header filename and not validating the real filename extension of the decompressed file.
-A vulnerable PHP example is explained at the end of this doc.
 
+A vulnerable PHP example is explained at the end of this doc.
 <br>
 More information about ZIP file format can be found [here](https://en.wikipedia.org/wiki/ZIP_(file_format)).
 
