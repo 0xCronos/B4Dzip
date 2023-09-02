@@ -6,9 +6,9 @@ The vulnerability occurs because the validation of the compressed file extension
 Directory Header filename and not validating the real filename extension of the decompressed file.
 
 A vulnerable PHP example is explained at the end of this doc.
-<br>
-More information about ZIP file format can be found [here](https://en.wikipedia.org/wiki/ZIP_(file_format)).
 
+
+More information about ZIP file format can be found [here](https://en.wikipedia.org/wiki/ZIP_(file_format)).
 
 <!-- USAGE EXAMPLES -->
 ## Usage
