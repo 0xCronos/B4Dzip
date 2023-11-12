@@ -58,8 +58,8 @@ class BadZip:
             b'\x0a\x00',         # Version needed to extract
             b'\x00\x00',         # General purpose bit flag
             b'\x00\x00',         # Compression method (none)
-            b'\x69\xb5',         # File modification time TODO: calc current time
-            b'\x1e\x57',         # File modification date TODO: calc current time
+            b'\x69\xb5',         # File modification time
+            b'\x1e\x57',         # File modification date
             self.hex_crc32,      # CRC32
             self.hex_compressed_fsize,   # Compressed size
             self.hex_uncompressed_fsize, # Uncompressed size
@@ -78,8 +78,8 @@ class BadZip:
             b'\x0a\x00',         # Version needed to extract
             b'\x00\x00',         # General purpose bit flag
             b'\x00\x00',         # Compression method (none)
-            b'\x69\xb5',         # File modification time TODO: calc curren time
-            b'\x1e\x57',         # File modification date TODO: calc current time
+            b'\x69\xb5',         # File modification time
+            b'\x1e\x57',         # File modification date
             self.hex_crc32,      # CRC32
             self.hex_compressed_fsize,   # Compressed size
             self.hex_uncompressed_fsize, # Uncompressed size

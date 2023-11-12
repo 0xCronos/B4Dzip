@@ -1,40 +1,40 @@
 # B4Dzip
 
-The main purpose of this script is to create a zip file for exploiting File Upload using Null Byte injection.
+## Explanation
 
-The vulnerability occurs because the validation of the compressed file extension is performed using the Central 
-Directory Header filename and not validating the real filename extension of the decompressed file.
+The main purpose of this script is to create a zip file for bypassing the validation of the central directory
+header filename extension by performing Null Byte injection. 
 
 A vulnerable PHP example is explained at the end of this doc.
 
-
 More information about ZIP file format can be found [here](https://en.wikipedia.org/wiki/ZIP_(file_format)).
 
-<!-- USAGE EXAMPLES -->
+
 ## Usage
 
 ```
-python3 main.py  --help
-usage: B4Dzip [-h] -F FILE -E EXT -P PAYLOAD [-ZS ZIP_SLIP] [-O OUTPUT_FNAME]
+python3 main.py --help
+usage: B4Dzip [-h] -F FILE -E EXT -P PAYLOAD [-S ZIP_SLIP] [-O OUTPUT_FNAME]
 
-Creates a malicious zip file using the given payload as content and injecting NULL Byte in the given
-filename, to bypass validations in the Central Directory Header filename.
+Creates a zip file for bypassing the validation of the central directory header filename extension by performing Null Byte injection.
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
-  -F FILE, --file FILE  Filename of the file to compress
+  -F FILE, --file FILE  Name of the file to compress
   -E EXT, --ext EXT     Extension to append after NULL Byte injection.
   -P PAYLOAD, --payload PAYLOAD
-                        Payload filepath
-  -ZS ZIP_SLIP, --zip-slip ZIP_SLIP
+                        File path of the payload
+  -S ZIP_SLIP, --zip-slip ZIP_SLIP
                         Zip Slip parent directory, something like: ../../../
   -O OUTPUT_FNAME, --output-fname OUTPUT_FNAME
                         Output file name
 ```
+
 ## Usage via `runner.sh`
 
-I Highly recommend to use the `runner.sh` file for getting information about usage examples.
-The example below shows how a successfull execution of the script should look like.
+I strongly recommend using the script `runner.sh` as a way to understand how it works.
+
+The output below shows how a successfull execution of the script should look like.
 
 ```
 ./runner.sh 
@@ -80,7 +80,17 @@ Archive:  b4d.zip
 
 ## Vulnerable code example
 
-The following code has been extracted from `HTB - Zipping` and is a good example about how the vulnerability works. Also, it is the main reason why I did this script.
+The following php code opens a zip file and unzip it into the current directory.
+It also validates that the compressed file has the extension "pdf" by comparing that string
+with the extension returned by the function `pathinfo($fileName, PATHINFO_EXTENSION)`.
+
+
+The function above returns only the last extension of the given filename. This leads to a vulnerability,
+allowing attackers to bypass the file upload restriction by performing a null byte injection in the 
+central directory header of the zip file, just as this tool does.
+
+Therefore, a null injected file (e.g, "example.php\x00.pdf") will bypass the validation and the 
+file inside the zip file will be decompressed into the current directory.
 
 ```php
 <?php
@@ -90,34 +100,8 @@ The following code has been extracted from `HTB - Zipping` and is a good example
       if ($zip->count() > 1) {
         echo '<p>Please include a single PDF file in the archive.<p>';
       } else {
-        /* 
-            HERE: Checking the Wiki we find that:
-
-            "If the end of central directory record indicates a non-empty
-            archive (`cdh_size` and `lfh_size` in `badzip.py`), the name
-            of each file or directory within the archive should be specified
-            in a central directory entry (`cdh_fname` in `badzip.py`), along
-            with other metadata about the entry, and an offset into the ZIP file
-            pointing to the actual entry data.
-
-            ...
-
-            "This allows a file listing of the archive to be performed relatively
-            quickly, as the entire archive does not have to be read to see
-            the list of files."
-
-            TL;DR: $zip->getNameIndex(0) is reading the file name from Central Directory Header :)
-
-            See: https://www.php.net/manual/es/ziparchive.getnameindex.php#refsect1-ziparchive.getnameindex-description
-        */
         $fileName = $zip->getNameIndex(0);
 
-        /* 
-            HERE: PATHINFO_EXTENSION returns only the last extension,
-            so 'example.php\x00.pdf" will be read as .pdf == "pdf"
-
-            See: https://www.php.net/manual/es/function.pathinfo.php#refsect1-function.pathinfo-returnvalues
-        */
         if (pathinfo($fileName, PATHINFO_EXTENSION) === "pdf") {
           mkdir($uploadDir);
           echo exec('7z e ' . $zipFile . ' -o' . $uploadDir . '>/dev/null');
