@@ -119,7 +119,7 @@ file inside the zip file will be decompressed into the current directory.
 
 ## Meta
 
-Diego Muñoz – [LinkedIn](linkedin.com/in/diegomuñozm)
+Diego Muñoz – [LinkedIn](https://linkedin.com/in/diegomuñozm)
 
 Distributed under the MIT License. Go to ``LICENSE`` for more information.
 
