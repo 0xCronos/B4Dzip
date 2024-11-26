@@ -1,6 +1,7 @@
 import zlib
 import struct
 
+
 class BadZip:
     def __init__(self, lfh_fname: str, required_ext: str, fcontent: bytes) -> None:
         self.lfh_fname = lfh_fname
