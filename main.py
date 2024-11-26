@@ -1,6 +1,6 @@
 import argparse
 
-from badzip import BadZip
+from models.badzip import BadZip
 
 
 def create_parser():
